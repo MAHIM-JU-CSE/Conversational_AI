@@ -27,3 +27,39 @@ for combo in all_combinations:
         print("Task:", task, "Time:", time)
     print("Total Time:", total_time)
     print()
+
+
+
+
+
+
+import pandas as pd
+
+# Create a sample DataFrame with 5 rows, "Task," and "Time" values
+data = {'Task': ['Ab, fd, dfd', 'Bc', 'Cs', 'Ds', 'Eg'], 'Time': [10, 20, 30, 40, 50]}
+df = pd.DataFrame(data)
+
+def find_combinations(dataframe, k, current_combo=[], start=0):
+    combinations = []
+    if k == 0:
+        combinations.append(current_combo[:])
+    for i in range(start, len(dataframe)):
+        current_combo.append((dataframe.loc[i, 'Task'], dataframe.loc[i, 'Time']))
+        combinations += find_combinations(dataframe, k - 1, current_combo, i + 1)
+        current_combo.pop()
+    return combinations
+
+# Define the value of k (the number of rows to select in each combination)
+k = 3
+
+# Find all possible combinations of taking k rows
+all_combinations = find_combinations(df, k)
+
+# Print the combinations
+for combo in all_combinations:
+    total_time = sum(time for task, time in combo)
+    if 20 < total_time< 200 :
+        for task, time in combo:
+            print("Task:", task, "Time:", time)
+        print("Total Time:", total_time)
+        print()
